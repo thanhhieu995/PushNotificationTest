@@ -42,8 +42,8 @@ dependencies {
     implementation 'com.google.firebase:firebase-database-ktx:20.0.5'
     implementation 'com.google.firebase:firebase-auth:21.0.6'
     implementation 'com.google.firebase:firebase-auth-ktx:21.0.6'
-    implementation 'com.google.firebase:firebase-firestore:24.2.1'
-    implementation 'com.google.firebase:firebase-firestore-ktx:24.2.1'
+    implementation 'com.google.firebase:firebase-firestore:24.2.2'
+    implementation 'com.google.firebase:firebase-firestore-ktx:24.2.2'
     implementation 'com.google.firebase:firebase-analytics:21.1.0'
     implementation 'com.google.firebase:firebase-functions:20.1.0'
     implementation 'com.google.firebase:firebase-functions-ktx:20.1.0'
@@ -58,6 +58,11 @@ dependencies {
     implementation 'com.google.firebase:firebase-analytics-ktx'
     implementation 'com.google.firebase:firebase-messaging:23.0.7'
 
-    implementation 'com.squareup.retrofit2:retrofit:2.4.0'
+    implementation 'com.squareup.retrofit2:retrofit:2.9.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.4.0'
+
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.9'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.9'
+
+    implementation 'androidx.work:work-runtime-ktx:2.7.0'
 }
