@@ -1,25 +1,21 @@
 package com.example.pushnotificationtest
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
 import android.widget.EditText
-import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.iid.FirebaseInstanceId
 import com.google.firebase.messaging.FirebaseMessaging
 import com.google.gson.Gson
-import io.reactivex.annotations.SchedulerSupport.IO
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import okhttp3.Dispatcher
-import okhttp3.Response
-import org.w3c.dom.Text
-import retrofit2.Retrofit
-import java.lang.Exception
-import kotlin.coroutines.coroutineContext
+
 
 const val TOPIC = "/topics/myTopic"
 
@@ -50,6 +46,8 @@ class MainActivity : AppCompatActivity() {
                 Toast.makeText(this, "enter message", Toast.LENGTH_LONG).show()
             }
         }
+
+         onTokenRefresh()
     }
 
     private val coroutineExceptionHandler = CoroutineExceptionHandler{
@@ -70,5 +68,22 @@ class MainActivity : AppCompatActivity() {
         } catch (e : Exception) {
             Log.e(TAG, e.toString())
         }
+    }
+
+    fun onTokenRefresh() {
+        // Get updated InstanceID token.
+        val refreshedToken = FirebaseInstanceId.getInstance().token
+        Log.d(TAG, "Refreshed token: $refreshedToken")
+
+        // If you want to send messages to this application instance or
+        // manage this apps subscriptions on the server side, send the
+        // Instance ID token to your app server.
+        sendRegistrationToServer(refreshedToken)
+    }
+
+    private fun sendRegistrationToServer(refreshedToken: String?) {
+        val database: FirebaseDatabase = FirebaseDatabase.getInstance()
+        val ref : DatabaseReference = database.getReference("server/saving-data/IDs")
+        ref.push().setValue(refreshedToken)
     }
 }

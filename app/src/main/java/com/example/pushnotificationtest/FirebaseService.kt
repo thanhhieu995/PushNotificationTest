@@ -56,4 +56,8 @@ class FirebaseService : FirebaseMessagingService() {
         }
         notificationManager.createNotificationChannel(channel)
     }
+
+    override fun onNewToken(token: String) {
+        super.onNewToken(token)
+    }
 }
