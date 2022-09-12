@@ -16,6 +16,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.PushNotificationTest"
+        android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <service android:name=".FirebaseService"
             android:permission="com.google.android.c2dm.permission.SEND"

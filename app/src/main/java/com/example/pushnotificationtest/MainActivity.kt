@@ -47,7 +47,7 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-         onTokenRefresh()
+         //onTokenRefresh()
     }
 
     private val coroutineExceptionHandler = CoroutineExceptionHandler{
