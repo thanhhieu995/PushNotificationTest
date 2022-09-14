@@ -1,18 +1,16 @@
 package com.example.pushnotificationtest
 
-import android.annotation.SuppressLint
-import android.content.Context
-import android.os.AsyncTask
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.app.NotificationCompat
+import com.google.android.gms.tasks.OnSuccessListener
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.iid.FirebaseInstanceId
+import com.google.firebase.iid.InstanceIdResult
 import com.google.firebase.messaging.FirebaseMessaging
 import com.google.gson.Gson
 import kotlinx.coroutines.CoroutineExceptionHandler
@@ -20,11 +18,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import okhttp3.*
-import org.json.JSONArray
-import org.json.JSONException
-import org.json.JSONObject
-import retrofit2.http.Url
-import java.io.IOException
+import java.util.*
 
 
 const val TOPIC = "/topics/myTopic"
@@ -32,12 +26,19 @@ const val TOPIC = "/topics/myTopic"
 class MainActivity : AppCompatActivity() {
 
     val TAG = "MainActivity"
+    var newToken: String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
         FirebaseMessaging.getInstance().subscribeToTopic(TOPIC)
+
+        FirebaseInstanceId.getInstance().instanceId.addOnSuccessListener(this
+        ) { instanceIdResult ->
+            newToken = instanceIdResult.token
+            Log.e("newToken", newToken)
+        }
 
         val title = findViewById<EditText>(R.id.title)
         val message = findViewById<EditText>(R.id.message)
@@ -48,7 +49,7 @@ class MainActivity : AppCompatActivity() {
             val edtMessage = message.text.toString()
 
             if (title.text.toString().isNotEmpty() && message.text.toString().isNotEmpty()) {
-                PushNotification(NotificationData(edtTitle, edtMessage), TOPIC)
+                PushNotification(NotificationData(edtTitle, edtMessage), newToken)
                     .also {
                         sendNotification(it)
                     }

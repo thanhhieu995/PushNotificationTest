@@ -7,8 +7,10 @@ import android.app.NotificationManager.IMPORTANCE_HIGH
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.graphics.Color
 import android.os.Build
+import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
 import com.google.firebase.messaging.FirebaseMessagingService
@@ -59,5 +61,9 @@ class FirebaseService : FirebaseMessagingService() {
 
     override fun onNewToken(token: String) {
         super.onNewToken(token)
+        Log.d("token", token)
+        val editor: SharedPreferences.Editor = getSharedPreferences("RegisteredToken", MODE_PRIVATE).edit()
+        editor.putString("tokenName", token)
+        editor.apply()
     }
 }
